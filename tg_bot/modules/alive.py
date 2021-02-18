@@ -1,4 +1,4 @@
-from tg_bot import SUDO_USERS, OWNER_ID, tg_bot
+from tg_bot import SUDO_USERS, OWNER_ID
 from tg_bot.events import register
 
 
