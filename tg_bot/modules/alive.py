@@ -1,6 +1,4 @@
 from tg_bot import SUDO_USERS, OWNER_ID
-from tg_bot.events import register
-
 
 @register(pattern="^/alive")
 async def alive(event):
