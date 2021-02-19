@@ -64,7 +64,6 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                           can_invite_users=bot_member.can_invite_users,
                           can_restrict_members=bot_member.can_restrict_members,
                           can_pin_messages=bot_member.can_pin_messages,
-                          can_manage_voice_chat=bot_member.can_manage_voice_chat,
                           can_promote_members=bot_member.can_promote_members)
 
     message.reply_text(tld(chat.id, f"(𝙱𝙻𝙰𝙲𝙺 𝙻𝙴𝙶𝙴𝙽𝙳 𝚂𝚄𝙲𝙲𝙴𝚂𝚂𝙵𝚄𝙻𝙻𝚈 𝙿𝚁𝙾𝙼𝙾𝚃𝙴𝙳 {mention_html(user_member.user.id, user_member.user.first_name)} 𝙸𝙽 {html.escape(chatD.title)} 𝙽𝙾𝚆 𝙶𝙸𝙱 𝙿𝙰𝚁𝚃𝚈 😄!"), parse_mode=ParseMode.HTML)
