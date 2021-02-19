@@ -324,7 +324,7 @@ def rmchatpic(bot: Bot, update: Update):
 def adminlist(bot: Bot, update: Update):
     administrators = update.effective_chat.get_administrators()
     msg = update.effective_message
-    text = "Wooh Lets See Admins In *{}*:".format(update.effective_chat.title or "this chat")
+    text = "Wooh Lets See Admins In *{}*:\n".format(update.effective_chat.title or "this chat")
     for admin in administrators:
         user = admin.user
         status = admin.status
