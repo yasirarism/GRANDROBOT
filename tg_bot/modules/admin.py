@@ -195,7 +195,7 @@ def unpin(bot: Bot, update: Update) -> str:
 @run_async
 @bot_admin
 @user_admin
-def invite(bot: Bot, update: Update):
+
     chat = update.effective_chat  # type: Optional[Chat]
     if chat.username:
         update.effective_message.reply_text(chat.username)
@@ -225,7 +225,7 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     if not user_id:
-        message.reply_text("𝙼𝙴𝙽 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁 𝚂𝙴𝙳 𝙻𝚈𝙵 😶.")
+        message.reply_text("You don't seem to be referring to a user.")
         return
 
     if user_member.status == 'creator':
@@ -260,6 +260,8 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         description = result.json()["description"]
         if description == "Bad Request: not enough rights to change custom title of the user":
             message.reply_text("I can't set custom title for admins that I didn't promote!")
+
+
 
 
 @run_async
