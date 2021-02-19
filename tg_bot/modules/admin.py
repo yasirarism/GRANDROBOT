@@ -41,12 +41,12 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(tld(chat.id, "𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁 ʕ•ᴥ•ʔ."))
+        message.reply_text(tld(chat.id, "★ 𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁 ʕ•ᴥ•ʔ. 𝙿𝙰𝚂𝚂 𝙼𝙴 𝙷𝙸𝚂 𝙸𝙳 𝙾𝚁 𝚄𝚂𝙴𝚁𝙽𝙰𝙼𝙴 𝙰𝙽𝙳 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁 ★"))
         return ""
 
     user_member = chatD.get_member(user_id)
     if user_member.status == 'administrator' or user_member.status == 'creator':
-        message.reply_text(tld(chat.id, "How am I meant to promote someone that's already an admin? You noob"))
+        message.reply_text(tld(chat.id, "𝙷𝙾𝚆 𝙸 𝙰𝙼 𝙼𝙴𝙰𝙽𝚃 𝚃𝙾 𝙿𝚁𝙾𝙼𝙾𝚃𝙴 𝚄𝚂𝙴𝚁 𝚆𝙷𝙾 𝙸𝚂 𝙰𝙻𝚁𝙴𝙰𝙳𝚈 𝙰𝙽 𝙰𝙳𝙼𝙸𝙽 ☹︎?"))
         return ""
 
     if user_id == bot.id:
@@ -96,20 +96,20 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(tld(chat.id, "You don't seem to be referring to a user."))
+        message.reply_text(tld(chat.id, "★ 𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁 ʕ•ᴥ•ʔ. 𝙿𝙰𝚂𝚂 𝙼𝙴 𝙷𝙸𝚂 𝙸𝙳 𝙾𝚁 𝚄𝚂𝙴𝚁𝙽𝙰𝙼𝙴 𝙰𝙽𝙳 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁 ★"))
         return ""
 
     user_member = chatD.get_member(user_id)
     if user_member.status == 'creator':
-        message.reply_text(tld(chat.id, "This person CREATED the chat, how would I demote them?"))
+        message.reply_text(tld(chat.id, "𝙷𝙾𝚆 𝙸 𝙼𝙴𝙰𝙽𝚃 𝚃𝙾 𝙳𝙴𝙼𝙾𝚃𝙴 𝙰 𝙿𝙴𝚁𝚂𝙾𝙽 𝚆𝙷𝙾 𝙲𝚁𝙴𝙰𝚃𝙴𝙳 𝚃𝙷𝙸𝚂 𝙲𝙷𝙰𝚃 𝙰𝚁𝙴 𝚈𝙾𝚄 𝙰 𝙽𝙾𝙾𝙱?"))
         return ""
 
     if not user_member.status == 'administrator':
-        message.reply_text(tld(chat.id, "Can't demote what wasn't promoted!"))
+        message.reply_text(tld(chat.id, "𝙲𝙰𝙽𝚃 𝙳𝙴𝙼𝙾𝚃𝙴 𝙰𝙳𝙼𝙸𝙽 𝚃𝙾 𝚆𝙷𝙾𝙼 𝙸 𝙳𝙸𝙳𝙽𝚃 𝙿𝚁𝙾𝙼𝙾𝚃𝙴𝙳 𝚂𝙴𝙳 𝙻𝚈𝙵!"))
         return ""
 
     if user_id == bot.id:
-        message.reply_text(tld(chat.id, "I can't demote myself!"))
+        message.reply_text(tld(chat.id, "𝚂𝙴𝙳 𝙱𝚄𝚃 𝙸 𝙲𝙰𝙽𝚃 𝙳𝙴𝙼𝙾𝚃𝙴 𝙼𝚈𝚂𝙴𝙻𝙵 😁!"))
         return ""
 
     try:
@@ -122,7 +122,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
                               can_restrict_members=False,
                               can_pin_messages=False,
                               can_promote_members=False)
-        message.reply_text(tld(chat.id, f"Successfully demoted in *{chatD.title}*!"), parse_mode=ParseMode.MARKDOWN)
+        message.reply_text(tld(chat.id, f"𝙱𝙻𝙰𝙲𝙺 𝙻𝙴𝙶𝙴𝙽𝙳 𝚂𝚄𝙲𝙲𝙴𝚂𝚂𝙵𝚄𝙻𝙻𝚈 𝙳𝙴𝙼𝙾𝚃𝙴𝙳 𝚃𝙷𝙸𝚂 𝚁𝚄𝙳𝙴 𝙶𝚄𝚈 𝙸𝙽 *{chatD.title}*!"), parse_mode=ParseMode.MARKDOWN)
         return f"<b>{html.escape(chatD.title)}:</b>" \
                 "\n#DEMOTED" \
                f"\n<b>Admin:</b> {mention_html(user.id, user.first_name)}" \
@@ -130,7 +130,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     except BadRequest:
         message.reply_text(
-            tld(chat.id, "Could not demote. I might not be admin, or the admin status was appointed by another user, so I can't act upon them!")
+            tld(chat.id, "𝙼𝙴𝙽 𝙸 𝙲𝙰𝙽𝚃 𝙳𝙴𝙼𝙾𝚃𝙴 𝙷𝙸𝙼. 𝙸 𝙼𝙸𝙶𝙷𝚃 𝙽𝙾𝚃 𝙱𝙴 𝙰𝙳𝙼𝙸𝙽, 𝙾𝚁 𝚃𝙷𝙴 𝙰𝙳𝙼𝙸𝙽 𝚂𝚃𝙰𝚃𝚄𝚂 𝚆𝙰𝚂 𝙰𝙿𝙿𝙾𝙸𝙽𝚃𝙴𝙳 𝙱𝚈 𝙰𝙽𝙾𝚃𝙷𝙴𝚁 𝚄𝚂𝚁𝚁 🤐, 𝚂𝙾 𝚂𝙾𝚁𝚁𝚈 𝙸 𝙲𝙰𝙽𝚃 𝙰𝙲𝚃 𝚄𝙿𝙾𝙽 𝚃𝙷𝙴𝙼 𝚂𝙴𝙳!")
             )
         return ""
 
@@ -225,7 +225,7 @@ def set_title(bot: Bot, update: Update, args: List[str]):
         return
 
     if not user_id:
-        message.reply_text("You don't seem to be referring to a user.")
+        message.reply_text("𝙼𝙴𝙽 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁 𝚂𝙴𝙳 𝙻𝚈𝙵 😶.")
         return
 
     if user_member.status == 'creator':
