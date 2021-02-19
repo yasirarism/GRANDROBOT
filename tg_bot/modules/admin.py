@@ -332,7 +332,7 @@ def adminlist(bot: Bot, update: Update):
         if user.username:
             name = name = escape_markdown("@" + user.username)
         if status == "creator":
-            text += "\n 🔱 Creator:"
+            text += "\n  ✪ 𝚃𝙷𝙸𝚂 𝙾𝙿 𝙶𝚁𝙾𝚄𝙿 𝙲𝚁𝙴𝙰𝚃𝙾𝚁 ✪:"
             text += "\n` • `{} \n\n • *Administrators*:".format(name)
     for admin in administrators:
         user = admin.user
