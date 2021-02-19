@@ -333,7 +333,7 @@ def adminlist(bot: Bot, update: Update):
             name = name = escape_markdown("@" + user.username)
         if status == "creator":
             text += "\n✪ *𝙲𝚁𝙴𝙰𝚃𝙾𝚁* ✪"
-            text += "\n`• `{} \n\n✪ *𝙰𝙳𝙼𝙸𝙽𝙸𝚂𝚃𝚁𝙰𝚃𝙾𝚁𝚂* ✪".format(name)
+            text += "\n`✔︎ `{} \n\n✪ *𝙰𝙳𝙼𝙸𝙽𝙸𝚂𝚃𝚁𝙰𝚃𝙾𝚁𝚂* ✪".format(name)
     for admin in administrators:
         user = admin.user
         status = admin.status
