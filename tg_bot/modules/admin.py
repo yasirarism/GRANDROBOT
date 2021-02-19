@@ -64,6 +64,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                           can_invite_users=bot_member.can_invite_users,
                           can_restrict_members=bot_member.can_restrict_members,
                           can_pin_messages=bot_member.can_pin_messages,
+                          can_manage_voice_chat=bot_member.can_manage_voice_chat,
                           can_promote_members=bot_member.can_promote_members)
 
     message.reply_text(tld(chat.id, f"(𝙱𝙻𝙰𝙲𝙺 𝙻𝙴𝙶𝙴𝙽𝙳 𝚂𝚄𝙲𝙲𝙴𝚂𝚂𝙵𝚄𝙻𝙻𝚈 𝙿𝚁𝙾𝙼𝙾𝚃𝙴𝙳 {mention_html(user_member.user.id, user_member.user.first_name)} 𝙸𝙽 {html.escape(chatD.title)} 𝙽𝙾𝚆 𝙶𝙸𝙱 𝙿𝙰𝚁𝚃𝚈 😄!"), parse_mode=ParseMode.HTML)
@@ -96,7 +97,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(tld(chat.id, "★ 𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁.𝚈𝙾𝚄 𝙶𝙾𝙽𝙽𝙰 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁 𝚃𝙾 𝚆𝙷𝙾𝙼 𝚈𝙾𝚄 𝚆𝙰𝙽𝚃 𝚃𝙾 𝙳𝙴𝙼𝙾𝚃𝙴? ★"))
+        message.reply_text(tld(chat.id, "𝚈𝙾𝚄 𝙶𝙾𝙽𝙽𝙰 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁 𝚃𝙾 𝚆𝙷𝙾𝙼 𝚈𝙾𝚄 𝚆𝙰𝙽𝚃 𝚃𝙾 𝙳𝙴𝙼𝙾𝚃𝙴?"))
         return ""
 
     user_member = chatD.get_member(user_id)
