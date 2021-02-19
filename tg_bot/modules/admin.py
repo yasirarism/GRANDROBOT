@@ -61,7 +61,7 @@ def promote(bot: Bot, update: Update, args: List[str]) -> str:
                           can_post_messages=bot_member.can_post_messages,
                           can_edit_messages=bot_member.can_edit_messages,
                           can_delete_messages=bot_member.can_delete_messages,
-                          #can_invite_users=bot_member.can_invite_users,
+                          can_invite_users=bot_member.can_invite_users,
                           can_restrict_members=bot_member.can_restrict_members,
                           can_pin_messages=bot_member.can_pin_messages,
                           can_promote_members=bot_member.can_promote_members)
@@ -96,7 +96,7 @@ def demote(bot: Bot, update: Update, args: List[str]) -> str:
 
     user_id = extract_user(message, args)
     if not user_id:
-        message.reply_text(tld(chat.id, "★ 𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁.𝚈𝙾𝚄 𝙶𝙾𝙽𝙽𝙰 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁? ★"))
+        message.reply_text(tld(chat.id, "★ 𝚆𝙾𝚆, 𝚈𝙾𝚄 𝙳𝙸𝙳𝙽𝚃 𝚂𝙴𝙴𝙼 𝚃𝙾 𝙱𝙴 𝚁𝙴𝙵𝙴𝚁𝚁𝙸𝙽𝙶 𝚃𝙾 𝙰 𝚄𝚂𝙴𝚁.𝚈𝙾𝚄 𝙶𝙾𝙽𝙽𝙰 𝚂𝙿𝙴𝙲𝙸𝙵𝚈 𝚃𝙷𝙴 𝚄𝚂𝙴𝚁 𝚃𝙾 𝚆𝙷𝙾𝙼 𝚈𝙾𝚄 𝚆𝙰𝙽𝚃 𝚃𝙾 𝙳𝙴𝙼𝙾𝚃𝙴? ★"))
         return ""
 
     user_member = chatD.get_member(user_id)
