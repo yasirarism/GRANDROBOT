@@ -73,6 +73,15 @@ EDIT_TIMES = 12
 
 
 
+#sleep how many times after each edit in 'lol' 
+EDIT_SLEEP = 1
+#edit how many times in 'lol' 
+EDIT_TIMES = 5
+
+
+
+
+
 kill_you = [
             "Ｆｉｉｉｉｉｒｅ",
             "(　･ิω･ิ)︻デ═一-->",    
@@ -232,6 +241,16 @@ earth_ani = [
 ]
 
 
+
+
+lol = [
+            "[WAAH](https://telegra.ph/file/a19b0bf4760fca85bd961.png)",
+            "[LOL](https://telegra.ph/file/ed23819c84bab66e7d92f.png)",
+            "[ELECTRIC BILL KON BHAREGA](https://telegra.ph/file/53c85b5b354212496746f.png)",
+            "[JHINGA LALA](https://telegra.ph/file/1379a8c9ea40eaa463fd8.png)",
+            "[NINJA TECHNIQUE](https://telegra.ph/file/891a05f03399fb48f40f3.png)"
+]
+
 @user_admin
 @run_async
 def blockanimation(bot: Bot, update: Update):
@@ -240,6 +259,17 @@ def blockanimation(bot: Bot, update: Update):
         msg.edit_text(block_chain[x%18])
         time.sleep(EDIT_SLEEP)
     msg.edit_text('🟥')
+            
+            
+            
+@user_admin
+@run_async
+def lol(bot: Bot, update: Update):
+    msg = update.effective_message.reply_text('[MAJA AAYA](https://telegra.ph/file/8f5854d10e40d3f339d73.png)') 
+    for x in range(EDIT_TIMES):
+        msg.edit_text(lol[x%5])
+        time.sleep(EDIT_SLEEP)
+    msg.edit_text('[BOHOT MAJA AAYA](https://telegra.ph/file/984b769a1ae95b2be018e.png)')
 
 
 
@@ -363,6 +393,8 @@ __help__ = """
 
 - /kill ⚰
 
+- /lol
+
 """
 
 
@@ -374,6 +406,7 @@ MOONANIMATION_HANDLER =DisableAbleCommandHandler("moonanimation",moonanimation)
 CLOCKANIMATION_HANDLER =DisableAbleCommandHandler("clockanimation",clockanimation)
 BLOCKANIMATION_HANDLER =DisableAbleCommandHandler("blockanimation",blockanimation)
 EARTHANIMATION_HANDLER =DisableAbleCommandHandler("earthanimation",earthanimation)
+LOL_HANDLER =DisableAbleCommandHandler("lol",lol)
 dispatcher.add_handler(KILL_HANDLER)
 dispatcher.add_handler(LOVE_HANDLER)
 dispatcher.add_handler(HACK_HANDLER)
@@ -382,8 +415,9 @@ dispatcher.add_handler(EARTHANIMATION_HANDLER)
 dispatcher.add_handler(MOONANIMATION_HANDLER)
 dispatcher.add_handler(CLOCKANIMATION_HANDLER)
 dispatcher.add_handler(BLOCKANIMATION_HANDLER)
+dispatcher.add_handler(LOL_HANDLER)
 
 
 __mod_name__ = "EMOJIS"
-__command_list__ = ["love", "hack", "bombs", "moonanimation", "clockanimation", "earthanimation", "blockanimation", "kill"]
-__handlers__ = [LOVE_HANDLER, HACK_HANDLER, BOMBS_HANDLER, MOONANIMATION_HANDLER, CLOCKANIMATION_HANDLER, EARTHANIMATION_HANDLER, BLOCKANIMATION_HANDLER, KILL_HANDLER]
+__command_list__ = ["love", "hack", "bombs", "moonanimation", "clockanimation", "earthanimation", "blockanimation", "kill", "lol"]
+__handlers__ = [LOVE_HANDLER, HACK_HANDLER, BOMBS_HANDLER, MOONANIMATION_HANDLER, CLOCKANIMATION_HANDLER, EARTHANIMATION_HANDLER, BLOCKANIMATION_HANDLER, KILL_HANDLER, LOL_HANDLER]
