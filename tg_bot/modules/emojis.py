@@ -243,12 +243,12 @@ earth_ani = [
 
 
 
-lol = [
-            "[WAAH] (https://telegra.ph/file/a19b0bf4760fca85bd961.png)",
-            "[LOL] (https://telegra.ph/file/ed23819c84bab66e7d92f.png)",
-            "[ELECTRIC BILL KON BHAREGA] (https://telegra.ph/file/53c85b5b354212496746f.png)",
-            "[JHINGA LALA] (https://telegra.ph/file/1379a8c9ea40eaa463fd8.png)",
-            "[NINJA TECHNIQUE] (https://telegra.ph/file/891a05f03399fb48f40f3.png)"
+lol_ani = [
+            "[WAAH](https://telegra.ph/file/a19b0bf4760fca85bd961.png)",
+            "[LOL](https://telegra.ph/file/ed23819c84bab66e7d92f.png)",
+            "[ELECTRIC BILL KON BHAREGA](https://telegra.ph/file/53c85b5b354212496746f.png)",
+            "[JHINGA LALA](https://telegra.ph/file/1379a8c9ea40eaa463fd8.png)",
+            "[NINJA TECHNIQUE](https://telegra.ph/file/891a05f03399fb48f40f3.png)"
 ]
 
 @user_admin
@@ -264,11 +264,11 @@ def blockanimation(bot: Bot, update: Update):
 @user_admin
 @run_async
 def lol(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text('[MAJA AAYA] (https://telegra.ph/file/8f5854d10e40d3f339d73.png)') 
+    msg = update.effective_message.reply_text if msg.reply_to_message else msg.reply_text
     for x in range(EDIT_TIMES):
-        msg.edit_text(lol[x%5])
+        msg.edit_text(lol_ani[x%5])
         time.sleep(EDIT_SLEEP)
-    msg.edit_text('[BOHOT MAJA AAYA] (https://telegra.ph/file/984b769a1ae95b2be018e.png)')
+    msg.edit_text('MAJA AAYA(https://telegra.ph/file/984b769a1ae95b2be018e.png)')
 
 
 
@@ -405,7 +405,7 @@ MOONANIMATION_HANDLER =DisableAbleCommandHandler("moonanimation",moonanimation)
 CLOCKANIMATION_HANDLER =DisableAbleCommandHandler("clockanimation",clockanimation)
 BLOCKANIMATION_HANDLER =DisableAbleCommandHandler("blockanimation",blockanimation)
 EARTHANIMATION_HANDLER =DisableAbleCommandHandler("earthanimation",earthanimation)
-LOL_HANDLER =DisableAbleCommandHandler("lol",lol)
+LOL_HANDLER =DisableAbleCommandHandler("lol", lol)
 dispatcher.add_handler(KILL_HANDLER)
 dispatcher.add_handler(LOVE_HANDLER)
 dispatcher.add_handler(HACK_HANDLER)
