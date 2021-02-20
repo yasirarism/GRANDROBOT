@@ -264,7 +264,7 @@ def blockanimation(bot: Bot, update: Update):
 @user_admin
 @run_async
 def lol(bot: Bot, update: Update):
-    msg = update.effective_message.reply_text if msg.reply_to_message else msg.reply_text
+    msg = update.effective_message.reply_text('lol']
     for x in range(EDIT_TIMES):
         msg.edit_text(lol_ani[x%5])
         time.sleep(EDIT_SLEEP)
