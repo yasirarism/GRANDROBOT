@@ -6,39 +6,39 @@ from sqlalchemy import Column, String, Boolean, UnicodeText, Integer, BigInteger
 from tg_bot.modules.helper_funcs.msg_types import Types
 from tg_bot.modules.sql import SESSION, BASE
 
-DEFAULT_WELCOME = 'Hey {first}, how are you?'
-DEFAULT_GOODBYE = 'Nice knowing ya!'
+DEFAULT_WELCOME = 'Hay {first}, apa kabar?'
+DEFAULT_GOODBYE = 'Senang mengenalmu ya!'
 
 DEFAULT_WELCOME_MESSAGES = [
-    "{first} is here!",  #Discord welcome messages copied
-    "Hey, {first} is here.",
-    "Having {first} in our group is really a good choice! ...",
-    "Welcome! We are thrilled to have you at our group.",
-    "We would like to welcome you to our group.",
-    "Welcome to our group.",
-    "We would like to extend a warm welcome to you.",
-    "We're glad you joined {chatname}.",
-    "A very warm welcome to you {first}."
+    "{first} disini!",  #Discord welcome messages copied
+    "Hai, {first} disini.",
+    "Memiliki {first} di grup kami adalah pilihan yang bagus! ...",
+    "Selamat datang! Kami sangat senang Anda berada di grup kami.",
+    "Kami ingin menyambut Anda di grup kami.",
+    "Selamat datang di grup kami.",
+    "Kami ingin mengucapkan selamat datang yang hangat untuk Anda.",
+    "Kami senang Anda bergabung dengan {chatname}.",
+    "Salam hangat untukmu {first}."
 ]
 DEFAULT_GOODBYE_MESSAGES = [
-    "{first} will be missed.",
-    "{first} just went out.",
-    "{first} has left the lobby.",
-    "{first} has left the clan.",
-    "{first} has left the group.",
-    "{first} has fled the area.",
-    "{first} is out of the running.",
-    "Nice knowing ya, {first}!",
-    "It was a fun time {first}.",
-    "We hope to see you again soon, {first}.",
-    "I do not want to say! Goodbye, {first}.",
-    "Goodbye {first}! Guess who's gonna miss you :')",
-    "Goodbye {first}! It's gonna be lonely without ya.",
-    "Please don't leave me alone in this place, {first}!",
-    "You know we're gonna miss you {first}. Right? Right? Right?",
-    "Congratulations, {first}! You're officially free of this group.",
-    "{first}. You were an opponent worth fighting.",
-    "You're leaving, {first}? Yare Yare Daze.",
+    "{first} akan terlewat.",
+    "{first} baru saja keluar.",
+    "{first} telah meninggalkan lobi.",
+    "{first} telah meninggalkan klan.",
+    "{first} telah meninggalkan grup.",
+    "{first} telah meninggalkan area tersebut.",
+    "{first} keluar dari proses.",
+    "Senang mengenalmu, {first}!",
+    "Itu adalah waktu yang menyenangkan {first}.",
+    "Kami berharap dapat bertemu Anda lagi segera, {first}.",
+    "Saya tidak ingin mengatakan! Selamat tinggal, {first}.",
+    "Selamat tinggal {first}! Tebak siapa yang akan merindukanmu: ')",
+    "Selamat tinggal {first}! Ini akan sepi tanpamu.",
+    "Tolong jangan tinggalkan aku sendirian di tempat ini, {first}!",
+    "Kamu tahu kami akan merindukanmu {first}. Benar? Benar? Benar?",
+    "Selamat, {first}! Anda resmi bebas dari grup ini.",
+    "{first}. Anda adalah lawan yang layak untuk dilawan.",
+    "Kamu pergi, {first}? Yare Yare Daze.",
 ]
 
 
