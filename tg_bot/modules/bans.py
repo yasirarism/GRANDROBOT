@@ -141,7 +141,7 @@ def temp_ban(bot: Bot, update: Update, args: List[str]) -> str:
 
     try:
         chat.kick_member(user_id, until_date=bantime)
-        # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
         bot.sendMessage(chat.id, f"Banned! User {mention_html(member.user.id, member.user.first_name)} "
                                  f"will be banned for {time_val}.",
                         parse_mode=ParseMode.HTML)
@@ -198,8 +198,8 @@ def punch(bot: Bot, update: Update, args: List[str]) -> str:
 
     res = chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        # bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
-        bot.sendMessage(chat.id, f"One Punched! {mention_html(member.user.id, member.user.first_name)}.",
+        bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        bot.sendMessage(chat.id, f"{mention_html(member.user.id, member.user.first_name)} berhasil ditendang.",
                         parse_mode=ParseMode.HTML)
         log = (f"<b>{html.escape(chat.title)}:</b>\n"
                f"#KICKED\n"
@@ -222,14 +222,14 @@ def punch(bot: Bot, update: Update, args: List[str]) -> str:
 def punchme(bot: Bot, update: Update):
     user_id = update.effective_message.from_user.id
     if is_user_admin(update.effective_chat, user_id):
-        update.effective_message.reply_text("I wish I could... but you're an admin.")
+        update.effective_message.reply_text("Sorry yak aku gabisa menendang admin")
         return
 
     res = update.effective_chat.unban_member(user_id)  # unban on current user = kick
     if res:
-        update.effective_message.reply_text("No problem.")
+        update.effective_message.reply_text("Ga masalah.")
     else:
-        update.effective_message.reply_text("Huh? I can't :/")
+        update.effective_message.reply_text("Huh? Saya tidak bisa :/")
 
 
 @run_async
@@ -314,31 +314,31 @@ def selfunban(bot: Bot, update: Update, args: List[str]) -> str:
         return
 
     chat.unban_member(user.id)
-    message.reply_text("Yep, I have unbanned you.")
+    message.reply_text("Yup, I have unbanned you.")
 
     log = (f"<b>{html.escape(chat.title)}:</b>\n"
            f"#UNBANNED\n"
-           f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
+           f"<b>Pengguna:</b> {mention_html(member.user.id, member.user.first_name)}")
 
     return log
 
 
 __help__ = """
- - /punchme: punchs the user who issued the command
+ - /kickme: kick the user who issued the command
 
 *Admin only:*
  - /ban <userhandle>: bans a user. (via handle, or reply)
  - /tban <userhandle> x(m/h/d): bans a user for x time. (via handle, or reply). m = minutes, h = hours, d = days.
  - /unban <userhandle>: unbans a user. (via handle, or reply)
- - /punch <userhandle>: Punches a user out of the group, (via handle, or reply)
+ - /kick <userhandle>: Punches a user out of the group, (via handle, or reply)
 """
 
 BAN_HANDLER = CommandHandler("ban", ban, pass_args=True)
 TEMPBAN_HANDLER = CommandHandler(["tban", "tempban"], temp_ban, pass_args=True)
-PUNCH_HANDLER = CommandHandler("punch", punch, pass_args=True)
+PUNCH_HANDLER = CommandHandler("kick", punch, pass_args=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, pass_args=True)
 ROAR_HANDLER = CommandHandler("roar", selfunban, pass_args=True)
-PUNCHME_HANDLER = DisableAbleCommandHandler("punchme", punchme, filters=Filters.group)
+PUNCHME_HANDLER = DisableAbleCommandHandler("kickme", punchme, filters=Filters.group)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
