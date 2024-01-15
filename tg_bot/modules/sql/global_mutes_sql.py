@@ -17,7 +17,7 @@ class GloballyMutedUsers(BASE):
         self.reason = reason
 
     def __repr__(self):
-        return "<GMuted User {} ({})>".format(self.name, self.user_id)
+        return f"<GMuted User {self.name} ({self.user_id})>"
 
     def to_dict(self):
         return {"user_id": self.user_id,
@@ -35,7 +35,7 @@ class GmuteSettings(BASE):
         self.setting = enabled
 
     def __repr__(self):
-        return "<Gmute setting {} ({})>".format(self.chat_id, self.setting)
+        return f"<Gmute setting {self.chat_id} ({self.setting})>"
 
 
 GloballyMutedUsers.__table__.create(checkfirst=True)
@@ -76,8 +76,7 @@ def update_gmute_reason(user_id, name, reason=None):
 
 def ungmute_user(user_id):
     with GMUTED_USERS_LOCK:
-        user = SESSION.query(GloballyMutedUsers).get(user_id)
-        if user:
+        if user := SESSION.query(GloballyMutedUsers).get(user_id):
             SESSION.delete(user)
 
         SESSION.commit()
@@ -153,8 +152,7 @@ def __load_gmute_stat_list():
 
 def migrate_chat(old_chat_id, new_chat_id):
     with GMUTE_SETTING_LOCK:
-        chat = SESSION.query(GmuteSettings).get(str(old_chat_id))
-        if chat:
+        if chat := SESSION.query(GmuteSettings).get(str(old_chat_id)):
             chat.chat_id = new_chat_id
             SESSION.add(chat)
 

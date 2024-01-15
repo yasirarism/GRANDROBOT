@@ -34,7 +34,7 @@ def blacklist(bot: Bot, update: Update, args: List[str]):
 
     filter_list = base_blacklist_string
 
-    if len(args) > 0 and args[0].lower() == 'copy':
+    if args and args[0].lower() == 'copy':
         for trigger in all_blacklisted:
             filter_list += f"<code>{html.escape(trigger)}</code>\n"
     else:
@@ -63,7 +63,13 @@ def add_blacklist(bot: Bot, update: Update):
 
     if len(words) > 1:
         text = words[1]
-        to_blacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+        to_blacklist = list(
+            {
+                trigger.strip()
+                for trigger in text.split("\n")
+                if trigger.strip()
+            }
+        )
 
         for trigger in to_blacklist:
             sql.add_to_blacklist(chat.id, trigger.lower())
@@ -90,7 +96,13 @@ def unblacklist(bot: Bot, update: Update):
 
     if len(words) > 1:
         text = words[1]
-        to_unblacklist = list(set(trigger.strip() for trigger in text.split("\n") if trigger.strip()))
+        to_unblacklist = list(
+            {
+                trigger.strip()
+                for trigger in text.split("\n")
+                if trigger.strip()
+            }
+        )
         successful = 0
 
         for trigger in to_unblacklist:
@@ -137,9 +149,7 @@ def del_blacklist(bot: Bot, update: Update):
             try:
                 message.delete()
             except BadRequest as excp:
-                if excp.message == "Message to delete not found":
-                    pass
-                else:
+                if excp.message != "Message to delete not found":
                     LOGGER.exception("Error while deleting blacklist message.")
             break
 
@@ -150,12 +160,11 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     blacklisted = sql.num_blacklist_chat_filters(chat_id)
-    return "There are {} blacklisted words.".format(blacklisted)
+    return f"There are {blacklisted} blacklisted words."
 
 
 def __stats__():
-    return "{} blacklist triggers, across {} chats.".format(sql.num_blacklist_filters(),
-                                                            sql.num_blacklist_filter_chats())
+    return f"{sql.num_blacklist_filters()} blacklist triggers, across {sql.num_blacklist_filter_chats()} chats."
 
 
 __help__ = """

@@ -29,7 +29,7 @@ def list_handlers(bot: Bot, update: Update):
     user = update.effective_user  # type: Optional[User]
 
     conn = connected(bot, update, chat, user.id, need_admin=False)
-    if not conn == False:
+    if conn != False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
         filter_list = "*Filters in {}:*\n"
@@ -40,24 +40,27 @@ def list_handlers(bot: Bot, update: Update):
             filter_list = "*local filters:*\n"
         else:
             chat_name = chat.title
-            filter_list = "*Filters in {}*:\n".format(chat_name)
+            filter_list = f"*Filters in {chat_name}*:\n"
 
 
     all_handlers = sql.get_chat_triggers(chat_id)
 
     if not all_handlers:
-        update.effective_message.reply_text("No filters in *{}*!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            f"No filters in *{chat_name}*!",
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
         return
 
     for keyword in all_handlers:
-        entry = " - {}\n".format(escape_markdown(keyword))
+        entry = f" - {escape_markdown(keyword)}\n"
         if len(entry) + len(filter_list) > telegram.MAX_MESSAGE_LENGTH:
             update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.MARKDOWN)
             filter_list = entry
         else:
             filter_list += entry
 
-    if not filter_list == BASIC_FILTER_STRING:
+    if filter_list != BASIC_FILTER_STRING:
         update.effective_message.reply_text(filter_list, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
@@ -70,16 +73,12 @@ def filters(bot: Bot, update: Update):
     args = msg.text.split(None, 1)  # use python's maxsplit to separate Cmd, keyword, and reply_text
 
     conn = connected(bot, update, chat, user.id)
-    if not conn == False:
+    if conn != False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = update.effective_chat.id
-        if chat.type == "private":
-            chat_name = "local filters"
-        else:
-            chat_name = chat.title
-
+        chat_name = "local filters" if chat.type == "private" else chat.title
     if len(args) < 2:
         return
 
@@ -145,7 +144,10 @@ def filters(bot: Bot, update: Update):
     sql.add_filter(chat_id, keyword, content, is_sticker, is_document, is_image, is_audio, is_voice, is_video,
                    buttons)
 
-    msg.reply_text("Handler '{}' added in *{}*!".format(keyword, chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+    msg.reply_text(
+        f"Handler '{keyword}' added in *{chat_name}*!",
+        parse_mode=telegram.ParseMode.MARKDOWN,
+    )
     raise DispatcherHandlerStop
 
 
@@ -157,29 +159,31 @@ def stop_filter(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
 
     conn = connected(bot, update, chat, user.id)
-    if not conn == False:
+    if conn != False:
         chat_id = conn
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         chat_id = chat.id
-        if chat.type == "private":
-            chat_name = "local notes"
-        else:
-            chat_name = chat.title
-
+        chat_name = "local notes" if chat.type == "private" else chat.title
     if len(args) < 2:
         return
 
     chat_filters = sql.get_chat_triggers(chat_id)
 
     if not chat_filters:
-        update.effective_message.reply_text("No filters are active in *{}*!".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+        update.effective_message.reply_text(
+            f"No filters are active in *{chat_name}*!",
+            parse_mode=telegram.ParseMode.MARKDOWN,
+        )
         return
 
     for keyword in chat_filters:
         if keyword == args[1]:
             sql.remove_filter(chat_id, args[1])
-            update.effective_message.reply_text("Yep, I'll stop replying to that in *{}*.".format(chat_name), parse_mode=telegram.ParseMode.MARKDOWN)
+            update.effective_message.reply_text(
+                f"Yep, I'll stop replying to that in *{chat_name}*.",
+                parse_mode=telegram.ParseMode.MARKDOWN,
+            )
             raise DispatcherHandlerStop
 
     update.effective_message.reply_text("That's not a current filter - run /filters for all active filters.")
@@ -231,14 +235,14 @@ def reply_filter(bot: Bot, update: Update):
                                        disable_web_page_preview=should_preview_disabled,
                                        reply_markup=keyboard)
                 except BadRequest as excp:
-                    if excp.message == "Unsupported url protocol":
-                        message.reply_text("You seem to be trying to use an unsupported url protocol. Telegram "
-                                           "doesn't support buttons for some protocols, such as tg://. Please try "
-                                           "again help.")
-                    elif excp.message == "Reply message not found":
+                    if excp.message == "Reply message not found":
                         bot.send_message(chat.id, filt.reply, parse_mode=ParseMode.MARKDOWN,
                                          disable_web_page_preview=True,
                                          reply_markup=keyboard)
+                    elif excp.message == "Unsupported url protocol":
+                        message.reply_text("You seem to be trying to use an unsupported url protocol. Telegram "
+                                           "doesn't support buttons for some protocols, such as tg://. Please try "
+                                           "again help.")
                     else:
                         message.reply_text("This note could not be sent, as it is incorrectly formatted.")
                         LOGGER.warning("Message %s could not be parsed", str(filt.reply))
@@ -251,7 +255,7 @@ def reply_filter(bot: Bot, update: Update):
 
 
 def __stats__():
-    return "{} filters, across {} chats.".format(sql.num_filters(), sql.num_chats())
+    return f"{sql.num_filters()} filters, across {sql.num_chats()} chats."
 
 
 def __migrate__(old_chat_id, new_chat_id):
@@ -260,7 +264,7 @@ def __migrate__(old_chat_id, new_chat_id):
 
 def __chat_settings__(chat_id, user_id):
     cust_filters = sql.get_chat_triggers(chat_id)
-    return "There are `{}` custom filters here.".format(len(cust_filters))
+    return f"There are `{len(cust_filters)}` custom filters here."
 
 
 __help__ = """

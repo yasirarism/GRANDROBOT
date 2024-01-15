@@ -15,8 +15,12 @@ def covindia(bot: Bot, update: Update):
     confirmed = 0
     deceased = 0
     recovered = 0
-    state_input = ''.join([message.text.split(' ')[i] + ' ' for i in range(1, len(message.text.split(' ')))]).strip()
-    if state_input:
+    if state_input := ''.join(
+        [
+            message.text.split(' ')[i] + ' '
+            for i in range(1, len(message.text.split(' ')))
+        ]
+    ).strip():
         url_india = 'https://api.covid19india.org/data.json'
         json_url = urlopen(url_india)
         state_dict = json.loads(json_url.read())
@@ -27,7 +31,7 @@ def covindia(bot: Bot, update: Update):
                 recovered = sdict['recovered']
                 state = sdict['state']
                 break
-    
+
     if state:
         bot.send_message(
             message.chat.id,

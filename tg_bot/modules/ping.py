@@ -24,10 +24,7 @@ def get_readable_time(seconds: int) -> str:
 
     while count < 4:
         count += 1
-        if count < 3:
-            remainder, result = divmod(seconds, 60)
-        else:
-            remainder, result = divmod(seconds, 24)
+        remainder, result = divmod(seconds, 60) if count < 3 else divmod(seconds, 24)
         if seconds == 0 and remainder == 0:
             break
         time_list.append(int(result))
@@ -36,7 +33,7 @@ def get_readable_time(seconds: int) -> str:
     for x in range(len(time_list)):
         time_list[x] = str(time_list[x]) + time_suffix_list[x]
     if len(time_list) == 4:
-        ping_time += time_list.pop() + ", "
+        ping_time += f"{time_list.pop()}, "
 
     time_list.reverse()
     ping_time += ":".join(time_list)
@@ -53,7 +50,7 @@ def ping_func(to_ping: List[str]) -> List[str]:
         site_to_ping = sites_list[each_ping]
         r = requests.get(site_to_ping)
         end_time = time.time()
-        ping_time = str(round((end_time - start_time), 2)) + "s"
+        ping_time = f"{str(round(end_time - start_time, 2))}s"
 
         pinged_site = f"<b>{each_ping}</b>"
 
@@ -72,9 +69,7 @@ def ping(bot: Bot, update: Update):
     telegram_ping = ping_func(["Telegram"])[0].split(": ", 1)[1]
     uptime = get_readable_time((time.time() - StartTime))
 
-    reply_msg = ("PONG!!\n"
-                 "<b>Time Taken:</b> <code>{}</code>\n"
-                 "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime))
+    reply_msg = f"PONG!!\n<b>Time Taken:</b> <code>{telegram_ping}</code>\n<b>Service uptime:</b> <code>{uptime}</code>"
 
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML)
 
@@ -86,9 +81,8 @@ def pingall(bot: Bot, update: Update):
     pinged_list.insert(2, '')
     uptime = get_readable_time((time.time() - StartTime))
 
-    reply_msg = "⏱Ping results are:\n"
-    reply_msg += "\n".join(pinged_list)
-    reply_msg += '\n<b>Service uptime:</b> <code>{}</code>'.format(uptime)
+    reply_msg = "⏱Ping results are:\n" + "\n".join(pinged_list)
+    reply_msg += f'\n<b>Service uptime:</b> <code>{uptime}</code>'
 
     update.effective_message.reply_text(reply_msg, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 

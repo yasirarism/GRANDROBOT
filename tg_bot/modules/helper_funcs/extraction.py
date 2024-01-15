@@ -13,9 +13,7 @@ def id_from_reply(message):
         return None, None
     user_id = prev_message.from_user.id
     res = message.text.split(None, 1)
-    if len(res) < 2:
-        return user_id, ""
-    return user_id, res[1]
+    return (user_id, "") if len(res) < 2 else (user_id, res[1])
 
 
 def extract_user(message: Message, args: List[str]) -> Optional[int]:
@@ -34,11 +32,7 @@ def extract_user_and_text(message: Message, args: List[str]) -> (Optional[int], 
     text = ""
 
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
-    if len(entities) > 0:
-        ent = entities[0]
-    else:
-        ent = None
-
+    ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
@@ -102,11 +96,7 @@ def extract_unt_fedban(message: Message, args: List[str]) -> (Optional[int], Opt
     text = ""
 
     entities = list(message.parse_entities([MessageEntity.TEXT_MENTION]))
-    if len(entities) > 0:
-        ent = entities[0]
-    else:
-        ent = None
-
+    ent = entities[0] if entities else None
     # if entity offset matches (command end/text start) then all good
     if entities and ent and ent.offset == len(message.text) - len(text_to_parse):
         ent = entities[0]
