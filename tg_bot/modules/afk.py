@@ -15,12 +15,11 @@ AFK_REPLY_GROUP = 8
 @run_async
 def afk(bot: Bot, update: Update):
     args = update.effective_message.text.split(None, 1)
-    reason = ""
-    if len(args) >= 2:
-        reason = args[1]
-
+    reason = args[1] if len(args) >= 2 else ""
     sql.set_afk(update.effective_user.id, reason)
-    update.effective_message.reply_text("{} sekarang AFK!".format(update.effective_user.first_name))
+    update.effective_message.reply_text(
+        f"{update.effective_user.first_name} sekarang AFK!"
+    )
 
 
 @run_async
@@ -30,8 +29,7 @@ def no_longer_afk(bot: Bot, update: Update):
     if not user:
         return
 
-    res = sql.rm_afk(user.id)
-    if res:
+    if res := sql.rm_afk(user.id):
         options = [
             '{} disini!',
             '{} kembali!',
@@ -71,9 +69,9 @@ def reply_afk(bot: Bot, update: Update):
                 valid, reason = sql.check_afk_status(user_id)
                 if valid:
                     if not reason:
-                        res = "── 「 AFK MODE 」 ──\n\nSssttt! {} lagi AFK, jangan diganggu!".format(fst_name)
+                        res = f"── 「 AFK MODE 」 ──\n\nSssttt! {fst_name} lagi AFK, jangan diganggu!"
                     else:
-                        res = "── 「 AFK MODE 」 ──\n\nSssttt! {} lagi AFK, jangan diganggu!!\n➸ Alasan:\n{}".format(fst_name, reason)
+                        res = f"── 「 AFK MODE 」 ──\n\nSssttt! {fst_name} lagi AFK, jangan diganggu!!\n➸ Alasan:\n{reason}"
                     message.reply_text(res)
 
 

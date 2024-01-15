@@ -25,19 +25,23 @@ GMAPS_LOC = "https://maps.googleapis.com/maps/api/geocode/json"
 
 def gps(bot: Bot, update: Update, args: List[str]):
     message = update.effective_message
-    if len(args) == 0:
+    if not args:
         update.effective_message.reply_text("That was a funny joke, but no really, put in a location")
     try:
         geolocator = Nominatim(user_agent="SkittBot")
         location = " ".join(args)
-        geoloc = geolocator.geocode(location)  
+        geoloc = geolocator.geocode(location)
         chat_id = update.effective_chat.id
         lon = geoloc.longitude
         lat = geoloc.latitude
-        the_loc = Location(lon, lat) 
-        gm = "https://www.google.com/maps/search/{},{}".format(lat,lon)
+        the_loc = Location(lon, lat)
+        gm = f"https://www.google.com/maps/search/{lat},{lon}"
         bot.send_location(chat_id, location=the_loc)
-        update.message.reply_text("Open with: [Google Maps]({})".format(gm), parse_mode=ParseMode.MARKDOWN, disable_web_page_preview=True)
+        update.message.reply_text(
+            f"Open with: [Google Maps]({gm})",
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True,
+        )
     except AttributeError:
         update.message.reply_text("I can't find that")
 

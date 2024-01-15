@@ -70,10 +70,7 @@ if is_module_loaded(FILENAME):
 
             chat = update.effective_chat
             if super().check_update(update):
-                if sql.is_command_disabled(chat.id, self.friendly):
-                    return False
-                else:
-                    return True
+                return not sql.is_command_disabled(chat.id, self.friendly)
 
 
     class DisableAbleRegexHandler(RegexHandler):
@@ -85,23 +82,20 @@ if is_module_loaded(FILENAME):
         def check_update(self, update):
             chat = update.effective_chat
             if super().check_update(update):
-                if sql.is_command_disabled(chat.id, self.friendly):
-                    return False
-                else:
-                    return True
+                return not sql.is_command_disabled(chat.id, self.friendly)
 
 
     @run_async
     @connection_status
     @user_admin
     def disable(bot: Bot, update: Update, args: List[str]):
-        chat = update.effective_chat
-        if len(args) >= 1:
+        if args:
             disable_cmd = args[0]
             if disable_cmd.startswith(CMD_STARTERS):
                 disable_cmd = disable_cmd[1:]
 
             if disable_cmd in set(DISABLE_CMDS + DISABLE_OTHER):
+                chat = update.effective_chat
                 sql.disable_command(chat.id, str(disable_cmd).lower())
                 update.effective_message.reply_text(f"Disabled the use of `{disable_cmd}`",
                                                     parse_mode=ParseMode.MARKDOWN)
@@ -116,8 +110,7 @@ if is_module_loaded(FILENAME):
     @connection_status
     @user_admin
     def disable_module(bot: Bot, update: Update, args: List[str]):
-        chat = update.effective_chat
-        if len(args) >= 1:
+        if args:
             disable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
 
             try:
@@ -135,6 +128,7 @@ if is_module_loaded(FILENAME):
             disabled_cmds = []
             failed_disabled_cmds = []
 
+            chat = update.effective_chat
             for disable_cmd in command_list:
                 if disable_cmd.startswith(CMD_STARTERS):
                     disable_cmd = disable_cmd[1:]
@@ -164,12 +158,12 @@ if is_module_loaded(FILENAME):
     @user_admin
     def enable(bot: Bot, update: Update, args: List[str]):
 
-        chat = update.effective_chat
-        if len(args) >= 1:
+        if args:
             enable_cmd = args[0]
             if enable_cmd.startswith(CMD_STARTERS):
                 enable_cmd = enable_cmd[1:]
 
+            chat = update.effective_chat
             if sql.enable_command(chat.id, enable_cmd):
                 update.effective_message.reply_text(f"Enabled the use of `{enable_cmd}`",
                                                     parse_mode=ParseMode.MARKDOWN)
@@ -184,9 +178,7 @@ if is_module_loaded(FILENAME):
     @connection_status
     @user_admin
     def enable_module(bot: Bot, update: Update, args: List[str]):
-        chat = update.effective_chat
-
-        if len(args) >= 1:
+        if args:
             enable_module = "tg_bot.modules." + args[0].rsplit(".", 1)[0]
 
             try:
@@ -203,6 +195,8 @@ if is_module_loaded(FILENAME):
 
             enabled_cmds = []
             failed_enabled_cmds = []
+
+            chat = update.effective_chat
 
             for enable_cmd in command_list:
                 if enable_cmd.startswith(CMD_STARTERS):
@@ -232,9 +226,10 @@ if is_module_loaded(FILENAME):
     @user_admin
     def list_cmds(bot: Bot, update: Update):
         if DISABLE_CMDS + DISABLE_OTHER:
-            result = ""
-            for cmd in set(DISABLE_CMDS + DISABLE_OTHER):
-                result += f" - `{escape_markdown(cmd)}`\n"
+            result = "".join(
+                f" - `{escape_markdown(cmd)}`\n"
+                for cmd in set(DISABLE_CMDS + DISABLE_OTHER)
+            )
             update.effective_message.reply_text(f"The following commands are toggleable:\n{result}",
                                                 parse_mode=ParseMode.MARKDOWN)
         else:
@@ -247,10 +242,8 @@ if is_module_loaded(FILENAME):
         if not disabled:
             return "No commands are disabled!"
 
-        result = ""
-        for cmd in disabled:
-            result += " - `{}`\n".format(escape_markdown(cmd))
-        return "The following commands are currently restricted:\n{}".format(result)
+        result = "".join(f" - `{escape_markdown(cmd)}`\n" for cmd in disabled)
+        return f"The following commands are currently restricted:\n{result}"
 
 
     @run_async

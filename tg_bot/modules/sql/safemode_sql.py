@@ -16,8 +16,7 @@ SAFEMODE_INSERTION_LOCK = threading.RLock()
 
 def set_safemode(chat_id, safemode_status=True):
     with SAFEMODE_INSERTION_LOCK:
-        curr = SESSION.query(Safemode).get((str(chat_id)))
-        if curr:
+        if curr := SESSION.query(Safemode).get((str(chat_id))):
             SESSION.delete(curr)
         switch_status = Safemode(str(chat_id), safemode_status)
 

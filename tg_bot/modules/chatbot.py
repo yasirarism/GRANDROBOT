@@ -22,27 +22,23 @@ def add_chat(bot: Bot, update: Update):
     global api_client
     chat_id = update.effective_chat.id
     msg = update.effective_message
-    is_chat = sql.is_chat(chat_id)
-    if not is_chat:
-        ses = api_client.create_session()
-        ses_id = str(ses.id)
-        expires = str(ses.expires)
-        sql.set_ses(chat_id, ses_id, expires)
-        msg.reply_text("AI successfully enabled for this chat!")
-    else:
+    if is_chat := sql.is_chat(chat_id):
         msg.reply_text("AI is already enabled for this chat!")
+    else:
+        ses = api_client.create_session()
+        sql.set_ses(chat_id, str(ses.id), str(ses.expires))
+        msg.reply_text("AI successfully enabled for this chat!")
         
         
 @run_async
 def remove_chat(bot: Bot, update: Update):
     msg = update.effective_message
     chat_id = update.effective_chat.id
-    is_chat = sql.is_chat(chat_id)
-    if not is_chat:
-        msg.reply_text("AI isn't enabled here in the first place!")
-    else:
+    if is_chat := sql.is_chat(chat_id):
         sql.rem_chat(chat_id)
         msg.reply_text("AI disabled successfully!")
+    else:
+        msg.reply_text("AI isn't enabled here in the first place!")
         
         
 def check_message(bot: Bot, message):

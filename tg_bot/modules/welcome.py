@@ -98,27 +98,21 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                                f"#USER_JOINED\n"
                                f"Bot Owner just joined the chat")
 
-            # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text("YEAH I SEE PRO PLAYER IS HERE!")
 
-            # Welcome Sudos
             elif new_mem.id in SUDO_USERS:
                 update.effective_message.reply_text("Huh! A Powered just joined! Stay Alert!")
 
-            # Welcome Support
             elif new_mem.id in SUPPORT_USERS:
                 update.effective_message.reply_text("Hey! A support user joined!")
 
-            # Welcome Whitelisted
             elif new_mem.id in TIGER_USERS:
                 update.effective_message.reply_text("Oof! A Tiger disaster just joined!")
 
-            # Welcome Tigers
             elif new_mem.id in WHITELIST_USERS:
                 update.effective_message.reply_text("Oof! A Wolf disaster just joined!")
 
-            # Welcome yourself
             elif new_mem.id == bot.id:
                 update.effective_message.reply_text("hello 😎 thanks for using me make sure you promote me then i can safe your group for spammers 🥰🥰🥰")
 
@@ -142,7 +136,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
                     count = chat.get_members_count()
                     mention = mention_markdown(new_mem.id, escape_markdown(first_name))
                     if new_mem.username:
-                        username = "@" + escape_markdown(new_mem.username)
+                        username = f"@{escape_markdown(new_mem.username)}"
                     else:
                         username = mention
 
@@ -174,8 +168,8 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
         if new_mem.is_bot:
             should_mute = False
 
-        if user.id == new_mem.id:
-            if should_mute:
+        if should_mute:
+            if user.id == new_mem.id:
                 if welc_mutes == "soft":
                     bot.restrict_chat_member(chat.id, new_mem.id,
                                              can_send_messages=True,
@@ -217,8 +211,7 @@ def new_member(bot: Bot, update: Update, job_queue: JobQueue):
         if welcome_bool:
             sent = send(update, res, keyboard, backup_message)
 
-            prev_welc = sql.get_clean_pref(chat.id)
-            if prev_welc:
+            if prev_welc := sql.get_clean_pref(chat.id):
                 try:
                     bot.delete_message(chat.id, prev_welc)
                 except BadRequest:
@@ -264,8 +257,7 @@ def left_member(bot: Bot, update: Update):
         return
 
     if should_goodbye:
-        left_mem = update.effective_message.left_chat_member
-        if left_mem:
+        if left_mem := update.effective_message.left_chat_member:
             # Ignore bot being kicked
             if left_mem.id == bot.id:
                 return
@@ -281,7 +273,7 @@ def left_member(bot: Bot, update: Update):
                 return
 
             # if media goodbye, use appropriate function for it
-            if goodbye_type != sql.Types.TEXT and goodbye_type != sql.Types.BUTTON_TEXT:
+            if goodbye_type not in [sql.Types.TEXT, sql.Types.BUTTON_TEXT]:
                 ENUM_FUNC_MAP[goodbye_type](chat.id, cust_goodbye)
                 return
 
@@ -296,7 +288,7 @@ def left_member(bot: Bot, update: Update):
                 count = chat.get_members_count()
                 mention = mention_markdown(left_mem.id, first_name)
                 if left_mem.username:
-                    username = "@" + escape_markdown(left_mem.username)
+                    username = f"@{escape_markdown(left_mem.username)}"
                 else:
                     username = mention
 
@@ -341,12 +333,11 @@ def welcome(bot: Bot, update: Update, args: List[str]):
 
                 send(update, welcome_m, keyboard, sql.DEFAULT_WELCOME)
 
-        else:
-            if noformat:
-                ENUM_FUNC_MAP[welcome_type](chat.id, welcome_m)
+        elif noformat:
+            ENUM_FUNC_MAP[welcome_type](chat.id, welcome_m)
 
-            else:
-                ENUM_FUNC_MAP[welcome_type](chat.id, welcome_m, parse_mode=ParseMode.MARKDOWN)
+        else:
+            ENUM_FUNC_MAP[welcome_type](chat.id, welcome_m, parse_mode=ParseMode.MARKDOWN)
 
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
@@ -385,12 +376,11 @@ def goodbye(bot: Bot, update: Update, args: List[str]):
 
                 send(update, goodbye_m, keyboard, sql.DEFAULT_GOODBYE)
 
-        else:
-            if noformat:
-                ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
+        elif noformat:
+            ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m)
 
-            else:
-                ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m, parse_mode=ParseMode.MARKDOWN)
+        else:
+            ENUM_FUNC_MAP[goodbye_type](chat.id, goodbye_m, parse_mode=ParseMode.MARKDOWN)
 
     elif len(args) >= 1:
         if args[0].lower() in ("on", "yes"):
@@ -490,7 +480,7 @@ def welcomemute(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user
     msg = update.effective_message
 
-    if len(args) >= 1:
+    if args:
         if args[0].lower() in ("off", "no"):
             sql.set_welcome_mutes(chat.id, False)
             msg.reply_text("I will no longer mute people on joining!")
@@ -531,8 +521,7 @@ def clean_welcome(bot: Bot, update: Update, args: List[str]) -> str:
     user = update.effective_user
 
     if not args:
-        clean_pref = sql.get_clean_pref(chat.id)
-        if clean_pref:
+        if clean_pref := sql.get_clean_pref(chat.id):
             update.effective_message.reply_text("I should be deleting welcome messages up to two days old.")
         else:
             update.effective_message.reply_text("I'm currently not deleting old welcome messages!")
@@ -579,8 +568,7 @@ def user_button(bot: Bot, update: Update):
         if member_dict["should_welc"]:
             sent = send(member_dict["update"], member_dict["res"], member_dict["keyboard"], member_dict["backup_message"])
 
-            prev_welc = sql.get_clean_pref(chat.id)
-            if prev_welc:
+            if prev_welc := sql.get_clean_pref(chat.id):
                 try:
                     bot.delete_message(chat.id, prev_welc)
                 except BadRequest:
@@ -657,8 +645,7 @@ def __migrate__(old_chat_id, new_chat_id):
 def __chat_settings__(chat_id, user_id):
     welcome_pref, _, _ = sql.get_welc_pref(chat_id)
     goodbye_pref, _, _ = sql.get_gdbye_pref(chat_id)
-    return "This chat has it's welcome preference set to `{}`.\n" \
-           "It's goodbye preference is `{}`.".format(welcome_pref, goodbye_pref)
+    return f"This chat has it's welcome preference set to `{welcome_pref}`.\nIt's goodbye preference is `{goodbye_pref}`."
 
 
 __help__ = """
